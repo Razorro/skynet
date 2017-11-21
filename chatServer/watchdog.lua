@@ -25,6 +25,13 @@ function SOCKET.close(fd)
     close_agent(fd)
 end
 
+function SOCKET.data(fd, msg)
+end
+
+function SOCKET.warning(fd, size)
+    print("socket warning", fd, size)
+end
+
 function CMD.start(conf)
     skynet.call(gate,"lua","open",conf) 
 end

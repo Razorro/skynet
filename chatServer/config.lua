@@ -9,6 +9,6 @@ lualoader = "lualib/loader.lua"
 luaservice = root.."chatServer/?.lua;".."chatServer/service/?.lua;"..root.."service/?.lua"
 lua_path = root.."chatServer/?.lua;"..root.."lualib/?.lua;"..root.."lualib/?/init.lua;"
 lua_cpath = root.."luaclib/?.so"
-snax = "examples/?.lua;"..root.."test/?.lua"
+snax = "lualib/snax/?.lua;".."examples/?.lua;"..root.."test/?.lua"
 cpath = root.."cservice/?.so"
 

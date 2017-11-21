@@ -1,5 +1,5 @@
 package.cpath = "luaclib/?.so"
-package.path = "lualib/?.lua;examples/?.lua"
+package.path = "chatServer/?.lua;".."lualib/?.lua;examples/?.lua"
 
 if _VERSION ~= "Lua 5.3" then
 	error "Use lua 5.3"
@@ -73,6 +73,15 @@ local function print_response(session, args)
 	if args then
 		for k,v in pairs(args) do
 			print(k,v)
+            if type(v) == "table" then
+                for k2,v2 in pairs(v) do
+                    if type(v2) == "table" then
+                        for k3,v3 in pairs(v2) do
+                            print(k3,v3)
+                        end
+                    end
+                end
+            end
 		end
 	end
 end
@@ -106,6 +115,8 @@ while true do
 	if cmd then
 		if cmd == "quit" then
 			send_request("quit")
+        elseif cmd == "friendlist" then
+            send_request("friendlist")
 		else
 			send_request("get", { what = cmd })
 		end
