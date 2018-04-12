@@ -1,8 +1,9 @@
 root = './'
 thread = 2
 loger = nil
+harbor = 0
 logpath = "./logger"
 start = "main"
-luaservice = root.."service/?.lua;"..root.."myservice/?.lua;"
-lua_path = root.."lualib/?.lua"
+luaservice = root.."myservice/?.lua;"..root.."service/?.lua;"
+lua_path = root.."mylib/?.lua;"..root.."lualib/?.lua"
 lua_cpath = root.."luaclib/?.so"
