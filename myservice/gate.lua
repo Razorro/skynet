@@ -4,19 +4,13 @@ local netpack = require "skynet.netpack"
 local sprotoloader = require ""
 
 local watchdog
-local host
+local login
 local connection = {}
 local forwarding = {}
-
-host = sprotoloader.load(1):host "package"
 
 skyent.register_protocol {
     name = "client",
     id = skynet.PTYE_CLIENT,
-    unpack = function(msg, sz)
-        return host:dispatch(msg, sz)
-    end
-    dispatch = function(session, source, )
 }
 
 local handler = {}
@@ -41,4 +35,24 @@ function handler.connect(fd, addr)
     connection[fd] = c
 end
 
-host = 
+local function close_fd(fd)
+    local c = connection[fd]
+    if c then
+        unforward(c)
+        connection[fd] = nil
+    end
+end
+
+function handler.disconnect(fd)
+    close_fd(fd)
+    skyent.send(watchdog, "lua", "socket", "close", fd)
+end
+
+local function unforward(c)
+    if c.agent then
+        forwarding[c.agent] = nil
+        c.agent = nil
+        c.client = nil
+    end
+end
+

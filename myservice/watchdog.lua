@@ -1,13 +1,20 @@
 local skynet = require "skynet"
 
-local gate
+local login = tonumber(...)
+local gate = {}
 local agent = {}
 local CMD = {}
 local SOCKET = {}
 
-function CMD.start(conf)
-    skynet.call(gate,"lua","open",conf)
+function CMD.opengate(conf)
+    addr = skynet.newservice("gate")
+    gate[addr] = conf
+    skynet.call(addr, "lua", "open", conf)
+    skynet.send(login, "lua", "registergate", addr)
 end
+
+
+
 
 skynet.start(function()
     skynet.dispatch("lua", function(session, source, cmd, subcmd, ...)
@@ -20,6 +27,4 @@ skynet.start(function()
             local f = assert(CMD[cmd])
             skynet.ret(skynet.pack(f(subcmd, ...)))
     end)
-
-    gate = skynet.newservice("gate")
 end)
